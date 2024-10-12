@@ -20,7 +20,8 @@ p2_cards = deck[deck_middle:]
 def card_comparison(p1_card, p2_card):
     p1_rank = ranks.index(p1_card[1])
     p2_rank = ranks.index(p2_card[1])
-
+    
+    #Comparison 
     if p1_rank > p2_rank:
         return 1
     elif p2_rank > p1_rank:
@@ -31,11 +32,12 @@ def card_comparison(p1_card, p2_card):
 
 
 def play_round(player1_hand, player2_hand):
-
+    #Pick out the cards to be played
     p1_card = player1_hand.pop(0)
     p2_card = player2_hand.pop(0)
     print(f"Player 1 plays {p1_card}, Player 2 plays {p2_card}")
-
+       
+    # Compare the cards to determine the winner
     result = card_comparison(p1_card, p2_card)
 
     if result == 1:
@@ -48,8 +50,9 @@ def play_round(player1_hand, player2_hand):
         player2_hand.append(p2_card)
         player2_hand.append(p1_card)
 
+    #If tie, then start Peace!
     else:
-        print("War!")
+        print("Peace!")
         player1_hand.append(p1_card)
         player2_hand.append(p2_card)
         war(player1_hand, player2_hand)
@@ -70,8 +73,7 @@ def war(player1_hand, player2_hand):
             player1_war_cards.append(player1_hand.pop(0)) 
             player2_war_cards.append(player2_hand.pop(0))
         
-
-        # Compare the cards to determine the winner
+        # Do the comparisons, card by card
         for n in range(4):
             p1_card = player1_war_cards[n]
             p2_card = player2_war_cards[n]
@@ -80,26 +82,28 @@ def war(player1_hand, player2_hand):
             result = card_comparison(p1_card, p2_card)
 
             if result == 1:
-                print("Player 1 wins the war")
+                print("Player 1 wins the peace")
                 player1_hand.extend(player1_war_cards + player2_war_cards)
                 player1_hand.append(player2_hand[-1])
                 player2_hand.pop(-1)
                 break
 
             if result == 2: 
-                print("Player 1 wins the war")
+                print("Player 1 wins the peace")
                 player2_hand.extend(player1_war_cards + player2_war_cards)
                 player2_hand.append(player1_hand[-1])
                 player1_hand.pop(-1)
                 break
-
+            
+            #if we run out of cards without a victor
             if result == 0 and (len(player1_war_cards)<1 and len(player2_war_cards)<1):
-                print("Restart war")
+                print("Restart peace")
                 war(player1_hand, player2_hand)
                 break
 
+            #tie but we have cards left
             elif result == 0 and (len(player1_war_cards)>0 and len(player2_war_cards)>0):
-                print("War continues!")
+                print("Peace continues!")
 
 
 
@@ -112,7 +116,7 @@ def play_game():
         play_round(p1_cards, p2_cards)
 
         # input("Press enter to continue: ")
-        # time.sleep(0.1)
+        time.sleep(0.1)
 
         if len(p1_cards) == 0:
             print("Player 2 wins the game!")
@@ -125,5 +129,5 @@ def play_game():
     #verify all went well:
     print(f"Player 1 cards: {len(p1_cards)}, Player 2 cards: {len(p2_cards)}")
 
-
+#MAIN
 play_game()
