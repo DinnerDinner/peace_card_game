@@ -94,9 +94,14 @@ def war(player1_hand, player2_hand):
         
         #if we run out of cards without a victor
         if result == 0 and (len(player1_war_cards)<1 and len(player2_war_cards)<1):
-            print("Restart peace")
-            war(player1_hand, player2_hand)
-            break
+            if len(player2_hand)==0 or len(player1_hand)==0:
+                print(f"Player {1 if player2_hand>player1_hand else 2} has ran out of cards for peace, they lose!")
+                return
+            
+            else:
+                print("Restart peace")
+                war(player1_hand, player2_hand)
+                break
 
         #tie but we have cards left
         elif result == 0 and (len(player1_war_cards)>0 and len(player2_war_cards)>0):
